@@ -20,7 +20,7 @@ namespace Drandulette.APIEssentials.Controllers
         {
             try
             {
-                topic_Comment.topicID = Guid.NewGuid().ToString();
+                topic_Comment.topic_commentID = Guid.NewGuid().ToString();
 
                 DateTime time = DateTime.Now;
 
@@ -35,22 +35,16 @@ namespace Drandulette.APIEssentials.Controllers
         }
 
         [HttpGet(Name = "GetTopicComment")]
-        public IEnumerable<Topic_comment>? Get(string topicID, string? probableMessage)
+        public IEnumerable<Topic_comment>? Get(string topicID)
         {
-            try
+            var comments = dbConnector.Topic_comment.Where(comment => comment.topicID == topicID).ToList();
+
+            foreach (var comment in comments)
             {
-                if (probableMessage == null) probableMessage = string.Empty;
-
-                IEnumerable<Topic_comment> comments = dbConnector.Topic_comment.Where(comment => comment.message.ToLower().Contains(probableMessage) || comment.topicID == topicID);
-
-                foreach(var comment in comments)
-                {
-                    comment.user = dbConnector.User.Find(comment.mailLogin);
-                }
-
-                return comments;
+                comment.user = dbConnector.User.Find(comment.mailLogin);
             }
-            catch { return new List<Topic_comment>(); }
+
+            return comments;
         }
 
         [HttpDelete(Name = "DeleteTopicComment")]
