@@ -37,7 +37,11 @@ namespace Drandulette.APIEssentials.Controllers
         [HttpGet(Name = "GetTopicComment")]
         public IEnumerable<Topic_comment>? Get(string topicID)
         {
-            var comments = dbConnector.Topic_comment.Where(comment => comment.topicID == topicID).ToList();
+            try
+            {
+                if (probableMessage == null) probableMessage = string.Empty;
+
+                IEnumerable<Topic_comment> comments = dbConnector.Topic_comment.Where(comment => comment.message.ToLower().Contains(probableMessage) || comment.topicID == topicID);
 
             foreach (var comment in comments)
             {
