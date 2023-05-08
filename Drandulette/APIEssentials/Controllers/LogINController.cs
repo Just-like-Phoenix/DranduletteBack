@@ -1,7 +1,7 @@
 ﻿using Drandulette.Controllers.Data;
 using Drandulette.Controllers.Data.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using FileManager = System.IO.File;
 
 namespace Drandulette.APIEssentials.Controllers
 {
@@ -16,10 +16,11 @@ namespace Drandulette.APIEssentials.Controllers
         [HttpGet(Name = "GetLogIN")]
         public User? Get(string login, string password)
         {
-            User account = null;
+            User? account = null;
 
             try {
                 account = dbContext.User.Single(user => user.mailLogin == login && user.password == password);
+                account.profilePic = Convert.ToBase64String(FileManager.ReadAllBytes($".\\Users\\{account.mailLogin}\\imgnotfound.jpg"));
             }
             catch {}
 

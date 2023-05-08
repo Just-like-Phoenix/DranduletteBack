@@ -37,18 +37,14 @@ namespace Drandulette.APIEssentials.Controllers
         [HttpGet(Name = "GetTopicComment")]
         public IEnumerable<Topic_comment>? Get(string topicID)
         {
-            try
+            List<Topic_comment> comments = dbConnector.Topic_comment.Where(comment => comment.topicID == topicID).ToList();
+
+            foreach (var comment in comments)
             {
-                IEnumerable<Topic_comment> comments = dbConnector.Topic_comment.Where(comment => comment.topicID == topicID);
-
-                foreach(var comment in comments)
-                {
-                    comment.user = dbConnector.User.Find(comment.mailLogin);
-                }
-
-                return comments;
+                comment.user = dbConnector.User.Find(comment.mailLogin);
             }
-            catch { return new List<Topic_comment>(); }
+
+            return comments;
         }
 
         [HttpDelete(Name = "DeleteTopicComment")]

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Drandulette.Controllers.Data.Models
 {
@@ -10,5 +11,8 @@ namespace Drandulette.Controllers.Data.Models
         public string? name { get; set; }
         public string? phone { get; set; }
         public int moderator { get; set; }
+
+        [NotMapped]
+        public string? profilePic { get; set; }
     }
 }

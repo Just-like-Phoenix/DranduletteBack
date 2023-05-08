@@ -1,6 +1,7 @@
 ﻿using Drandulette.Controllers.Data.Models;
 using Drandulette.Controllers.Data;
 using Microsoft.AspNetCore.Mvc;
+using FileManager = System.IO.File;
 
 namespace Drandulette.APIEssentials.Controllers
 {
@@ -31,8 +32,6 @@ namespace Drandulette.APIEssentials.Controllers
         [HttpPost(Name = "PostAnnouncement")]
         public IActionResult Post([FromBody] Announcement announcement)
         {
-
-
             try
             {
                 if (!AllPicsAreValid(announcement.pics)) throw new Exception("дебил");
@@ -47,12 +46,7 @@ namespace Drandulette.APIEssentials.Controllers
                 dbConnector.Announcement.Add(announcement);
 
                 for (int i = 0; i < announcement.pics.Count; i++)
-                {
-                    using (var fs = new FileStream($"{path}\\{i + 1}.base", FileMode.Create, FileAccess.Write))
-                    {
-                        fs.Write(announcement.pics[i].Select(x => (byte)x).ToArray());
-                    }
-                }
+                    FileManager.WriteAllBytes($"{path}\\{i + 1}.base", announcement.pics[i].Select(x => (byte)x).ToArray());
 
                 dbConnector.SaveChanges();
             }
