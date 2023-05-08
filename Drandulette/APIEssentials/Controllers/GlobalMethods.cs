@@ -21,7 +21,7 @@ namespace Drandulette.APIEssentials.Controllers
 
         public static Topic InsertPictures(Topic x)
         {
-            x.user.profilePic = Convert.ToBase64String(FileManager.ReadAllBytes($".\\Users\\{x.mailLogin}\\imgnotfound.jpg"));
+            x.user.profilePic = Convert.ToBase64String(FileManager.ReadAllBytes($".\\Users\\{x.mailLogin}\\imgnotfound.base"));
             return x;
         }
 

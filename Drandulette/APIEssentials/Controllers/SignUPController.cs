@@ -21,7 +21,7 @@ namespace Drandulette.APIEssentials.Controllers
                 string path = $".\\Users\\{user.mailLogin}";
 
                 Directory.CreateDirectory(path);
-                FileManager.Copy($".\\Users\\imgnotfound.jpg", $"{path}\\imgnotfound.jpg");
+                FileManager.Copy($".\\Samples\\imgnotfound.base", $"{path}\\imgnotfound.base");
 
                 dbContext.User.Add(user);
                 dbContext.SaveChanges();
