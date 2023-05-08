@@ -7,7 +7,7 @@ void ConfigureServices(IServiceCollection services)
     var serverVersion = ServerVersion.AutoDetect(connectionString);
     services.AddDbContext<DranduletteContext>(
         dbContextOptions => dbContextOptions
-            .UseMySql(connectionString, serverVersion)
+            .UseMySql(connectionString, serverVersion, options => options.EnableRetryOnFailure())
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging()
             .EnableDetailedErrors()
