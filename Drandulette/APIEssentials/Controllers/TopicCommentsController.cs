@@ -39,16 +39,16 @@ namespace Drandulette.APIEssentials.Controllers
         {
             try
             {
-                if (probableMessage == null) probableMessage = string.Empty;
+                var comments = dbConnector.Topic_comment.Where(comment => comment.topicID == topicID);
 
-                IEnumerable<Topic_comment> comments = dbConnector.Topic_comment.Where(comment => comment.message.ToLower().Contains(probableMessage) || comment.topicID == topicID);
+                foreach (var comment in comments)
+                {
+                    comment.user = dbConnector.User.Find(comment.mailLogin);
+                }
 
-            foreach (var comment in comments)
-            {
-                comment.user = dbConnector.User.Find(comment.mailLogin);
+                return comments;
             }
-
-            return comments;
+            catch { return new List<Topic_comment>(); }
         }
 
         [HttpDelete(Name = "DeleteTopicComment")]
