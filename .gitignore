@@ -361,5 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/Drandulette/Users/dan-braun-02@mail.ru
+/Drandulette/Users/*
 /Drandulette/appsettings.json
