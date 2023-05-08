@@ -1,6 +1,7 @@
 ﻿using Drandulette.Controllers.Data;
 using Drandulette.Controllers.Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using static Drandulette.APIEssentials.Controllers.GlobalMethods;
 
 namespace Drandulette.APIEssentials.Controllers
 {
@@ -46,7 +47,7 @@ namespace Drandulette.APIEssentials.Controllers
                     comment.user = dbConnector.User.Find(comment.mailLogin);
                 }
 
-                return comments.OrderBy(x => x.time);
+                return comments.Select(x => InsertPictures(x)).OrderBy(x => x.time);
             }
             catch { return new List<Topic_comment>(); }
         }
