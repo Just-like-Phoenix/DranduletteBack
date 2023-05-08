@@ -46,7 +46,7 @@ namespace Drandulette.APIEssentials.Controllers
                     comment.user = dbConnector.User.Find(comment.mailLogin);
                 }
 
-                return comments;
+                return comments.OrderByDescending(x => x.time);
             }
             catch { return new List<Topic_comment>(); }
         }
