@@ -25,6 +25,12 @@ namespace Drandulette.APIEssentials.Controllers
             return x;
         }
 
+        public static Topic_comment InsertPictures(Topic_comment x)
+        {
+            x.user.profilePic = FileManager.ReadAllText($".\\Users\\{x.mailLogin}\\imgnotfound.base");
+            return x;
+        }
+
         public static bool Matches(string brand, string model, int year, Announcement x)
         {
             return x.brand.Contains(brand) || x.model.Contains(model) || x.year == year;
