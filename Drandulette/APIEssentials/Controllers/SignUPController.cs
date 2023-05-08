@@ -1,8 +1,7 @@
 ﻿using Drandulette.Controllers.Data;
 using Drandulette.Controllers.Data.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+using FileManager = System.IO.File;
 
 namespace Drandulette.APIEssentials.Controllers
 {
@@ -17,10 +16,12 @@ namespace Drandulette.APIEssentials.Controllers
         [HttpPost(Name = "PostSingUP")]
         public IActionResult Post([FromBody] User user)
         {
-            
             try
             {
-                Directory.CreateDirectory($".\\Users\\{user.mailLogin}");
+                string path = $".\\Users\\{user.mailLogin}";
+
+                Directory.CreateDirectory(path);
+                FileManager.Copy($".\\Users\\imgnotfound.jpg", $"{path}\\imgnotfound.jpg");
 
                 dbContext.User.Add(user);
                 dbContext.SaveChanges();
