@@ -43,7 +43,7 @@ namespace Drandulette.APIEssentials.Controllers
                 if (probableName == null) probableName = string.Empty;
                 if (topicID == null) topicID = string.Empty;
 
-                List<Topic> topics = dbConnector.Topic.Where(x => x.topic_theme.Contains(probableName) || x.topic_text.Contains(probableName) || x.topicID.Contains(topicID)).ToList();
+                List<Topic> topics = dbConnector.Topic.Where(x => (x.topic_theme.Contains(probableName) || x.topic_text.Contains(probableName)) && x.topicID.Contains(topicID)).ToList();
 
                 foreach (var topic in topics)
                 {
