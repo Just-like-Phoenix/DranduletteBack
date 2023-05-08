@@ -2,6 +2,7 @@
 using Drandulette.Controllers.Data;
 using Microsoft.AspNetCore.Mvc;
 using FileManager = System.IO.File;
+using static Drandulette.APIEssentials.Controllers.GlobalMethods;
 
 namespace Drandulette.APIEssentials.Controllers
 {
@@ -68,25 +69,6 @@ namespace Drandulette.APIEssentials.Controllers
             var tmp = dbConnector.Announcement.Where(x => Matches(brand, model, year, x));
 
             return tmp.Select(x => InsertPictures(x, isSpecific));
-        }
-
-        private static Announcement InsertPictures(Announcement x, int isSpecific)
-        {
-            var pics = Directory.EnumerateFiles(x.picsPath);
-
-            if (isSpecific == 0)
-            {
-                x.pics = pics.Select(x => new StreamReader(x).ReadToEnd()).ToList();
-                return x;
-            }
-
-            x.pics.Add(pics.First());
-            return x;
-        }
-
-        private static bool Matches(string brand, string model, int year, Announcement x)
-        {
-            return x.brand.Contains(brand) || x.model.Contains(model) || x.year == year;
         }
 
         [HttpDelete(Name = "DeleteAnnouncement")]

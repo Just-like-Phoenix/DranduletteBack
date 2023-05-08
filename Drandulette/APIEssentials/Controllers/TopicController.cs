@@ -1,7 +1,7 @@
 ﻿using Drandulette.Controllers.Data;
 using Drandulette.Controllers.Data.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using static Drandulette.APIEssentials.Controllers.GlobalMethods;
 
 
 namespace Drandulette.APIEssentials.Controllers
@@ -45,12 +45,7 @@ namespace Drandulette.APIEssentials.Controllers
 
                 List<Topic> topics = dbConnector.Topic.Where(x => (x.topic_theme.Contains(probableName) || x.topic_text.Contains(probableName)) && x.topicID.Contains(topicID)).ToList();
 
-                foreach (var topic in topics)
-                {
-                    topic.user = dbConnector.User.Find(topic.mailLogin);
-                }
-
-                return topics;
+                return topics.Select(x => InsertPictures(x));
             }
             catch { return new List<Topic>(); }
         }
