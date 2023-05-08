@@ -60,21 +60,27 @@ namespace Drandulette.APIEssentials.Controllers
         }
 
         [HttpGet(Name = "GetAnnouncement")]
-        public IEnumerable<Announcement> Get(string? brand, string? model, int year)
+        public IEnumerable<Announcement> Get(string? brand, string? model, int year, int isSpecific)
         {
             if (brand == null) brand = string.Empty;
             if (model == null) model = string.Empty;
 
             var tmp = dbConnector.Announcement.Where(x => Matches(brand, model, year, x));
 
-            return tmp.Select(x => InsertPictures(x));
+            return tmp.Select(x => InsertPictures(x, isSpecific));
         }
 
-        private static Announcement InsertPictures(Announcement x)
+        private static Announcement InsertPictures(Announcement x, int isSpecific)
         {
             var pics = Directory.EnumerateFiles(x.picsPath);
 
-            x.pics = new List<string>(pics.Select(x => (new StreamReader(x)).ReadToEnd()));
+            if (isSpecific == 0)
+            {
+                x.pics = pics.Select(x => new StreamReader(x).ReadToEnd()).ToList();
+                return x;
+            }
+
+            x.pics.Add(pics.First());
             return x;
         }
 

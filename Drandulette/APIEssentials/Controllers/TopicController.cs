@@ -36,13 +36,14 @@ namespace Drandulette.APIEssentials.Controllers
         }
 
         [HttpGet(Name = "GetTopic")]
-        public IEnumerable<Topic> Get(string? probableName)
+        public IEnumerable<Topic> Get(string? topicID, string? probableName)
         {
             try
             {
                 if (probableName == null) probableName = string.Empty;
+                if (topicID == null) topicID = string.Empty;
 
-                IEnumerable<Topic> topics = dbConnector.Topic.Where(x => x.topic_theme.Contains(probableName) || x.topic_text.Contains(probableName)).ToArray();
+                IEnumerable<Topic> topics = dbConnector.Topic.Where(x => x.topic_theme.Contains(probableName) || x.topic_text.Contains(probableName) || x.topicID.Contains(topicID)).ToArray();
 
                 foreach (var topic in topics)
                 {
