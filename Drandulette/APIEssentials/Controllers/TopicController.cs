@@ -43,7 +43,14 @@ namespace Drandulette.APIEssentials.Controllers
                 if (probableName == null) probableName = string.Empty;
                 if (topicID == null) topicID = string.Empty;
 
-                List<Topic> topics = dbConnector.Topic.Where(x => (x.topic_theme.Contains(probableName) || x.topic_text.Contains(probableName)) && x.topicID.Contains(topicID)).ToList();
+                List<Topic> topics = dbConnector.Topic
+                                        .Where(x => (x.topic_theme.Contains(probableName) || x.topic_text.Contains(probableName)) && x.topicID.Contains(topicID))
+                                        .ToList();
+
+                foreach (Topic topic in topics)
+                {
+                    topic.user = dbConnector.User.Find(topic.mailLogin);
+                }
 
                 return topics.Select(x => InsertPictures(x));
             }
