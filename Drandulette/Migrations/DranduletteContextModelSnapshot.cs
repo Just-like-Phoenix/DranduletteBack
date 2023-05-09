@@ -51,13 +51,16 @@ namespace Drandulette.Migrations
                     b.Property<int>("price")
                         .HasColumnType("int");
 
+                    b.Property<string>("sellersComment")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("transmission")
                         .HasColumnType("longtext");
 
                     b.Property<double>("volume")
                         .HasColumnType("double");
 
-                    b.Property<string>("wheelSide")
+                    b.Property<string>("wheelDrive")
                         .HasColumnType("longtext");
 
                     b.Property<int>("year")

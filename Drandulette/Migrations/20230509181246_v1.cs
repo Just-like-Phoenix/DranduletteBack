@@ -35,9 +35,11 @@ namespace Drandulette.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     body = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    wheelSide = table.Column<string>(type: "longtext", nullable: true)
+                    wheelDrive = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     picsPath = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    sellersComment = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     mailLogin = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
