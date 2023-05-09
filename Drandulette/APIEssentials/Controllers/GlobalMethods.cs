@@ -19,7 +19,7 @@ namespace Drandulette.APIEssentials.Controllers
             //List<string> list = new List<string>();
             //list.Add(firstPic);
             //x.pics = list;
-            x.pics.Add(FileManager.ReadAllText(pics.First()));
+            x.pics = new List<string>() { FileManager.ReadAllText(pics.First()) };
             return x;
         }
 
