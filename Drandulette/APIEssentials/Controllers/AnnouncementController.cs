@@ -43,6 +43,7 @@ namespace Drandulette.APIEssentials.Controllers
                 Directory.CreateDirectory(path);
 
                 announcement.picsPath = path;
+                announcement.pics.Reverse();
 
                 dbConnector.Announcement.Add(announcement);
 
@@ -61,23 +62,28 @@ namespace Drandulette.APIEssentials.Controllers
         }
 
         [HttpGet(Name = "GetAnnouncement")]
-        public IEnumerable<Announcement> Get(string? brand, string? model, int year, int isSpecific)
+        public IEnumerable<Announcement> Get(string? brand, string? model, int year, int isSpecific, int page)
         {
-            if (brand == null) brand = string.Empty;
-            if (model == null) model = string.Empty;
-
-            List<Announcement> tmp = dbConnector.Announcement
-                .Where(x => (x.brand.Contains(brand) || x.model.Contains(model) || x.year == year))
-                .Select(x => InsertPictures(x, isSpecific))
-                .ToList();
-
-            for (int i = 0; i < tmp.Count; i++)
+            try
             {
-                tmp[i].user = dbConnector.User.Find(tmp[i].mailLogin);
-                tmp[i] = InsertPictures(tmp[i]);
-            }
+                if (brand == null) brand = string.Empty;
+                if (model == null) model = string.Empty;
 
-            return tmp;
+                List<Announcement> tmp = dbConnector.Announcement
+                    .Where(x => (x.brand.Contains(brand) || x.model.Contains(model) || x.year == year))
+                    .Select(x => InsertPictures(x, isSpecific))
+                    .Take(new Range(page * 6, page * 6 + 5))
+                    .ToList();
+
+                for (int i = 0; i < tmp.Count; i++)
+                {
+                    tmp[i].user = dbConnector.User.Find(tmp[i].mailLogin);
+                    tmp[i] = InsertPictures(tmp[i]);
+                }
+
+                return tmp;
+            }
+            catch { return new List<Announcement>(); }
         }
 
         [HttpDelete(Name = "DeleteAnnouncement")]

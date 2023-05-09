@@ -36,7 +36,7 @@ namespace Drandulette.APIEssentials.Controllers
         }
 
         [HttpGet(Name = "GetTopic")]
-        public IEnumerable<Topic> Get(string? topicID, string? probableName)
+        public IEnumerable<Topic> Get(string? topicID, string? probableName, int page)
         {
             try
             {
@@ -45,6 +45,7 @@ namespace Drandulette.APIEssentials.Controllers
 
                 List<Topic> topics = dbConnector.Topic
                                         .Where(x => (x.topic_theme.Contains(probableName) || x.topic_text.Contains(probableName)) && x.topicID.Contains(topicID))
+                                        .Take(new Range(page * 6, page * 6 + 5))
                                         .ToList();
 
                 foreach (Topic topic in topics)
