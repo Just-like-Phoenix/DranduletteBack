@@ -1,7 +1,7 @@
 ﻿using Drandulette.Controllers.Data.Models;
 using Drandulette.Controllers.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static Drandulette.APIEssentials.Controllers.GlobalMethods;
 
 namespace Drandulette.APIEssentials.Controllers
 {
@@ -33,9 +33,16 @@ namespace Drandulette.APIEssentials.Controllers
         }
 
         [HttpGet(Name = "GetAnnouncmentComment")]
-        public IEnumerable<Announcement_comment> Get()
+        public IEnumerable<Announcement_comment> Get(string announcmentID)
         {
-            return dbConnector.Announcement_comment.Select(comment => comment);            
+            List<Announcement_comment> comments = dbConnector.Announcement_comment.Where(comment => comment.announcmentID == announcmentID).ToList();
+
+            foreach (var comment in comments)
+            {
+                comment.user = dbConnector.User.Find(comment.mailLogin);
+            }
+
+            return comments.Select(x => InsertPictures(x)).OrderBy(x => x.time);
         }
 
         [HttpDelete(Name = "DeleteAnnouncmentComment")]

@@ -14,11 +14,6 @@ namespace Drandulette.APIEssentials.Controllers
                 x.pics = pics.Select(x => FileManager.ReadAllText(x)).ToList();
                 return x;
             }
-            //StreamReader streamReader = new StreamReader(pics.First());
-            //string firstPic = streamReader.ReadToEnd();
-            //List<string> list = new List<string>();
-            //list.Add(firstPic);
-            //x.pics = list;
             x.pics = new List<string>() { FileManager.ReadAllText(pics.First()) };
             return x;
         }
@@ -36,6 +31,12 @@ namespace Drandulette.APIEssentials.Controllers
         }
 
         public static Topic_comment InsertPictures(Topic_comment x)
+        {
+            x.user.profilePic = FileManager.ReadAllText($".\\Users\\{x.mailLogin}\\imgnotfound.base");
+            return x;
+        }
+
+        public static Announcement_comment InsertPictures(Announcement_comment x)
         {
             x.user.profilePic = FileManager.ReadAllText($".\\Users\\{x.mailLogin}\\imgnotfound.base");
             return x;

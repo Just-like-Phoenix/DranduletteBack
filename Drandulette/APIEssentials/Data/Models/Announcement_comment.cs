@@ -11,6 +11,8 @@ namespace Drandulette.Controllers.Data.Models
         public string? message { get; set; }
         public DateTime time { get; set; }
 
+        [NotMapped]
+        public User? user { get; set; }
 
         [ForeignKey(nameof(mailLogin))]
         public string? mailLogin { get; set; }
