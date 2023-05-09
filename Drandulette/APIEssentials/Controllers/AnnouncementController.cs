@@ -70,11 +70,12 @@ namespace Drandulette.APIEssentials.Controllers
                 if (model == null) model = string.Empty;
 
                 int count = dbConnector.Announcement.Count();
+                int start = page * 6;
+                int end = start > count - 6 ? count : start + 6;
 
                 List<Announcement> tmp = dbConnector.Announcement
                     .Where(x => (x.brand.Contains(brand) || x.model.Contains(model) || x.year == year))
                     .Select(x => InsertPictures(x, isSpecific))
-                    .Take(new Range(page * 6, page * 6 > count - 6 ? count - 1 : page * 6 + 5))
                     .ToList();
 
                 for (int i = 0; i < tmp.Count; i++)
@@ -83,7 +84,7 @@ namespace Drandulette.APIEssentials.Controllers
                     tmp[i] = InsertPictures(tmp[i]);
                 }
 
-                return tmp;
+                return tmp.Take(new Range(start, end));
             }
             catch { return new List<Announcement>(); }
         }

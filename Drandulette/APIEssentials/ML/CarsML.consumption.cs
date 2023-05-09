@@ -49,7 +49,7 @@ namespace Drandulette
 
         #endregion
 
-        private static string MLNetModelPath = ".\\APIEssentials\\ML\\CarsML.mlnet";
+        private static string MLNetModelPath = "D:\\Прога\\CSharp_Projects\\DranduletteBack\\Drandulette\\APIEssentials\\ML\\CarsML.mlnet";
 
         public static readonly Lazy<PredictionEngine<ModelInput, ModelOutput>> PredictEngine = new Lazy<PredictionEngine<ModelInput, ModelOutput>>(() => CreatePredictEngine(), true);
 

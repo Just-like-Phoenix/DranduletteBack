@@ -20,7 +20,7 @@ namespace Drandulette.APIEssentials.Controllers
 
             try {
                 account = dbContext.User.Single(user => user.mailLogin == login && user.password == password);
-                account.profilePic = Convert.ToBase64String(FileManager.ReadAllBytes($".\\Users\\{account.mailLogin}\\imgnotfound.base"));
+                account.profilePic = FileManager.ReadAllText($".\\Users\\{account.mailLogin}\\imgnotfound.base");
             }
             catch {}
 
