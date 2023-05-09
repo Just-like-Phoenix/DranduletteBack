@@ -11,14 +11,21 @@ namespace Drandulette.APIEssentials.Controllers
 
             if (isSpecific == 0)
             {
-                x.pics = pics.Select(x => new StreamReader(x).ReadToEnd()).ToList();
+                x.pics = pics.Select(x => FileManager.ReadAllText(x)).ToList();
                 return x;
             }
-            StreamReader streamReader = new StreamReader(pics.First());
-            string firstPic = streamReader.ReadToEnd();
-            List<string> list = new List<string>();
-            list.Add(firstPic);
-            x.pics = list;
+            //StreamReader streamReader = new StreamReader(pics.First());
+            //string firstPic = streamReader.ReadToEnd();
+            //List<string> list = new List<string>();
+            //list.Add(firstPic);
+            //x.pics = list;
+            x.pics.Add(FileManager.ReadAllText(pics.First()));
+            return x;
+        }
+
+        public static Announcement InsertPictures(Announcement x)
+        {
+            x.user.profilePic = FileManager.ReadAllText($".\\Users\\{x.mailLogin}\\imgnotfound.base");
             return x;
         }
 
