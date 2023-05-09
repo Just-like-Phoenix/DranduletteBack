@@ -18,8 +18,9 @@ namespace Drandulette.Controllers.Data.Models
         public double volume { get; set; }
         public string? fuelType { get; set; }
         public string? body { get; set; }
-        public string? wheelSide { get; set; }
+        public string? wheelDrive { get; set; }
         public string? picsPath { get; set; }
+        public string? sellersComment { get; set; }
 
         [ForeignKey(nameof(mailLogin))]
         public string? mailLogin { get; set; }
