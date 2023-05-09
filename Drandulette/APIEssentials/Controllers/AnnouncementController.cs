@@ -66,7 +66,9 @@ namespace Drandulette.APIEssentials.Controllers
             if (brand == null) brand = string.Empty;
             if (model == null) model = string.Empty;
 
-            var tmp = dbConnector.Announcement.Where(x => Matches(brand, model, year, x));
+            List<Announcement> tmp = dbConnector.Announcement
+                .Where(x => (x.brand.Contains(brand) || x.model.Contains(model) || x.year == year))
+                .ToList();
 
             return tmp.Select(x => InsertPictures(x, isSpecific));
         }
