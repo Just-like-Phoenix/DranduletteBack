@@ -69,10 +69,12 @@ namespace Drandulette.APIEssentials.Controllers
                 if (brand == null) brand = string.Empty;
                 if (model == null) model = string.Empty;
 
+                int count = dbConnector.Announcement.Count();
+
                 List<Announcement> tmp = dbConnector.Announcement
                     .Where(x => (x.brand.Contains(brand) || x.model.Contains(model) || x.year == year))
                     .Select(x => InsertPictures(x, isSpecific))
-                    .Take(new Range(page * 6, page * 6 + 5))
+                    .Take(new Range(page * 6, page * 6 > count - 6 ? count - 1 : page * 6 + 5))
                     .ToList();
 
                 for (int i = 0; i < tmp.Count; i++)
