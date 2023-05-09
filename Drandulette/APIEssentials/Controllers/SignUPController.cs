@@ -19,9 +19,13 @@ namespace Drandulette.APIEssentials.Controllers
             try
             {
                 string path = $".\\Users\\{user.mailLogin}";
-
                 Directory.CreateDirectory(path);
-                FileManager.Copy($".\\Samples\\imgnotfound.base", $"{path}\\imgnotfound.base");
+
+                if (user.profilePic == null)
+                    FileManager.Copy($".\\Samples\\imgnotfound.base", $"{path}\\imgnotfound.base");
+                else
+                    FileManager.WriteAllText($"{path}\\imgnotfound.base", user.profilePic);
+                
 
                 dbContext.User.Add(user);
                 dbContext.SaveChanges();
