@@ -25,6 +25,9 @@ namespace Drandulette.Controllers.Data.Models
         public string? mailLogin { get; set; }
 
         [NotMapped]
+        public User? user { get; set; }
+
+        [NotMapped]
         public List<string> pics { get; set; }
     }
 }

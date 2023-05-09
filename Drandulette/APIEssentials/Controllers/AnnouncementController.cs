@@ -68,9 +68,16 @@ namespace Drandulette.APIEssentials.Controllers
 
             List<Announcement> tmp = dbConnector.Announcement
                 .Where(x => (x.brand.Contains(brand) || x.model.Contains(model) || x.year == year))
+                .Select(x => InsertPictures(x, isSpecific))
                 .ToList();
 
-            return tmp.Select(x => InsertPictures(x, isSpecific));
+            for (int i = 0; i < tmp.Count; i++)
+            {
+                tmp[i].user = dbConnector.User.Find(tmp[i].mailLogin);
+                tmp[i] = InsertPictures(tmp[i]);
+            }
+
+            return tmp;
         }
 
         [HttpDelete(Name = "DeleteAnnouncement")]
