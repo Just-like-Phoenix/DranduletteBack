@@ -62,19 +62,20 @@ namespace Drandulette.APIEssentials.Controllers
         }
 
         [HttpGet(Name = "GetAnnouncement")]
-        public IEnumerable<Announcement> Get(string? brand, string? model, int year, int isSpecific, int page)
+        public IEnumerable<Announcement> Get(string? announcmentID, string? brand, string? model, int year, int isSpecific, int page)
         {
             try
             {
                 if (brand == null) brand = string.Empty;
                 if (model == null) model = string.Empty;
+                if (announcmentID == null) announcmentID = string.Empty;
 
                 int count = dbConnector.Announcement.Count();
                 int start = page * 6;
                 int end = start > count - 6 ? count : start + 6;
 
                 List<Announcement> tmp = dbConnector.Announcement
-                    .Where(x => (x.brand.Contains(brand) || x.model.Contains(model) || x.year == year))
+                    .Where(x => ((x.brand.Contains(brand) || x.model.Contains(model) || x.year == year) && x.announcementID.Contains(announcmentID)))
                     .Select(x => InsertPictures(x, isSpecific))
                     .ToList();
 
