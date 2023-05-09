@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Drandulette.Migrations
 {
     [DbContext(typeof(DranduletteContext))]
-    [Migration("20230507025321_v1")]
+    [Migration("20230509181246_v1")]
     partial class v1
     {
         /// <inheritdoc />
@@ -54,13 +54,16 @@ namespace Drandulette.Migrations
                     b.Property<int>("price")
                         .HasColumnType("int");
 
+                    b.Property<string>("sellersComment")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("transmission")
                         .HasColumnType("longtext");
 
                     b.Property<double>("volume")
                         .HasColumnType("double");
 
-                    b.Property<string>("wheelSide")
+                    b.Property<string>("wheelDrive")
                         .HasColumnType("longtext");
 
                     b.Property<int>("year")
