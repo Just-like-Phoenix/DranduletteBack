@@ -14,8 +14,11 @@ namespace Drandulette.APIEssentials.Controllers
                 x.pics = pics.Select(x => new StreamReader(x).ReadToEnd()).ToList();
                 return x;
             }
-
-            x.pics.Add(pics.First());
+            StreamReader streamReader = new StreamReader(pics.First());
+            string firstPic = streamReader.ReadToEnd();
+            List<string> list = new List<string>();
+            list.Add(firstPic);
+            x.pics = list;
             return x;
         }
 
@@ -33,7 +36,7 @@ namespace Drandulette.APIEssentials.Controllers
 
         public static bool Matches(string brand, string model, int year, Announcement x)
         {
-            return x.brand.Contains(brand) || x.model.Contains(model) || x.year == year;
+            return (x.brand.Contains(brand) || x.model.Contains(model) || x.year == year);
         }
     }
 }
