@@ -43,9 +43,11 @@ namespace Drandulette.APIEssentials.Controllers
                 if (probableName == null) probableName = string.Empty;
                 if (topicID == null) topicID = string.Empty;
 
+                int count = dbConnector.Topic.Count();
+
                 List<Topic> topics = dbConnector.Topic
                                         .Where(x => (x.topic_theme.Contains(probableName) || x.topic_text.Contains(probableName)) && x.topicID.Contains(topicID))
-                                        .Take(new Range(page * 6, page * 6 + 5))
+                                        .Take(new Range(page * 6, page * 6 > count - 6 ? count - 1 : page * 6 + 5))
                                         .ToList();
 
                 foreach (Topic topic in topics)
