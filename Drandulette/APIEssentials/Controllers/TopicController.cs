@@ -44,10 +44,11 @@ namespace Drandulette.APIEssentials.Controllers
                 if (topicID == null) topicID = string.Empty;
 
                 int count = dbConnector.Topic.Count();
+                int start = page * 6;
+                int end = start > count - 6 ? count : start + 6;
 
                 List<Topic> topics = dbConnector.Topic
                                         .Where(x => (x.topic_theme.Contains(probableName) || x.topic_text.Contains(probableName)) && x.topicID.Contains(topicID))
-                                        .Take(new Range(page * 6, page * 6 > count - 6 ? count - 1 : page * 6 + 5))
                                         .ToList();
 
                 foreach (Topic topic in topics)
@@ -55,7 +56,7 @@ namespace Drandulette.APIEssentials.Controllers
                     topic.user = dbConnector.User.Find(topic.mailLogin);
                 }
 
-                return topics.Select(x => InsertPictures(x));
+                return topics.Select(x => InsertPictures(x)).Take(new Range(start, end));
             }
             catch { return new List<Topic>(); }
         }
