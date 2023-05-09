@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Drandulette.Migrations
 {
     [DbContext(typeof(DranduletteContext))]
-    [Migration("20230509181246_v1")]
+    [Migration("20230509184845_v1")]
     partial class v1
     {
         /// <inheritdoc />
