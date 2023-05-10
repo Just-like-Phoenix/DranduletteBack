@@ -3,6 +3,7 @@ using Drandulette.Controllers.Data;
 using Microsoft.AspNetCore.Mvc;
 using FileManager = System.IO.File;
 using static Drandulette.APIEssentials.Controllers.GlobalMethods;
+using Tensorflow.Util;
 
 namespace Drandulette.APIEssentials.Controllers
 {
@@ -62,30 +63,54 @@ namespace Drandulette.APIEssentials.Controllers
         }
 
         [HttpGet(Name = "GetAnnouncement")]
-        public IEnumerable<Announcement> Get(string? announcmentID, string? brand, string? model, int year, int isSpecific, int page)
+        public IEnumerable<Announcement> Get(string? announcmentID, string? probableName, string? brand, string? model, int year, int isSpecific, int page)
         {
             try
             {
                 if (brand == null) brand = string.Empty;
                 if (model == null) model = string.Empty;
+                if (probableName == null) probableName = null;
 
                 if (announcmentID != null)
                 {
-                    return dbConnector.Announcement
+                    List<Announcement> local = dbConnector.Announcement
                         .Where(x => x.announcementID == announcmentID)
                         .Select(x => InsertPictures(x, isSpecific))
                         .ToList();
+
+                    for (int i = 0; i < local.Count; i++)
+                    {
+                        local[i].user = dbConnector.User.Find(local[i].mailLogin);
+                        local[i] = InsertPictures(local[i]);
+                    }
+
+                    return local;
                 }
 
-                int count = dbConnector.Announcement.Count();
-                int start = page * 6;
-                int end = start > count - 6 ? count : start + 6;
+                if (probableName != null)
+                {
+                    List<Announcement> probable = dbConnector.Announcement
+                        .Where(x => (x.brand.Contains(probableName) || x.model.Contains(probableName) || x.sellersComment.Contains(probableName)))
+                        .Select(x => InsertPictures(x, isSpecific))
+                        .ToList();
+
+                    for (int i = 0; i < probable.Count; i++)
+                    {
+                        probable[i].user = dbConnector.User.Find(probable[i].mailLogin);
+                        probable[i] = InsertPictures(probable[i]);
+                    }
+
+                    return probable;
+                }
 
                 List<Announcement> tmp = dbConnector.Announcement
-                    .Where(x => (x.brand.Contains(brand) || x.model.Contains(model) || x.year == year))
+                    .Where(x => (x.brand.Contains(brand) && x.model.Contains(model)))
                     .Select(x => InsertPictures(x, isSpecific))
                     .ToList();
 
+                int count = tmp.Count();
+                int start = page * 6;
+                int end = start > count - 6 ? count : start + 6;
 
                 for (int i = 0; i < tmp.Count; i++)
                 {
