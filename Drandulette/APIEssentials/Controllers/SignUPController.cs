@@ -33,5 +33,40 @@ namespace Drandulette.APIEssentials.Controllers
             catch { return BadRequest(); }
             return Ok();
         }
+
+        [HttpDelete(Name = "DeleteSignUP")]
+        public IActionResult Delete(string? userMailLogin)
+        {
+            var user = dbContext.User.Find(userMailLogin);
+
+            if (user != null)
+            {
+                dbContext.User.Remove(user);
+
+                var announcments = Directory.EnumerateDirectories($".\\Users\\{userMailLogin}");
+                var files = Directory.EnumerateFiles($".\\Users\\{userMailLogin}");
+
+                foreach (var dir in announcments)
+                {
+                    var tmpFiles = Directory.EnumerateFiles(dir);
+
+                    foreach (var file in tmpFiles)
+                        FileManager.Delete(file);
+
+                    Directory.Delete(dir);
+                }
+
+                foreach (var file in files)
+                    FileManager.Delete(file);
+
+                Directory.Delete($".\\Users\\{userMailLogin}");
+
+                dbContext.SaveChanges();
+
+                return Ok();
+            }
+
+            return BadRequest();
+        }
     }
 }

@@ -19,9 +19,11 @@ namespace Drandulette.APIEssentials.Controllers
 
         private bool AllPicsAreValid(List<string> pics)
         {
-            foreach (var pic in pics)
+            List<string[]> formattedPics = new List<string[]>(pics.Select(x => FileManager.ReadAllText(x).Split(',')));
+
+            foreach (var pic in formattedPics)
             {
-                var modelInput = new CarsML.ModelInput { ImageSource = Convert.FromBase64String(pic.Split(',')[1]) };
+                var modelInput = new CarsML.ModelInput { ImageSource = Convert.FromBase64String(pic[1]) };
                 var result = CarsML.Predict(modelInput);
 
                 if (result.Score.Max() < 0.95) return false;
@@ -37,7 +39,7 @@ namespace Drandulette.APIEssentials.Controllers
             {
                 if (!AllPicsAreValid(announcement.pics)) throw new Exception("дебил");
 
-                announcement.announcementID = Guid.NewGuid().ToString();
+                //announcement.announcementID = Guid.NewGuid().ToString();
 
                 string path = $".\\Users\\{announcement.mailLogin}\\{announcement.announcementID}";
                 Directory.CreateDirectory(path);
@@ -99,15 +101,19 @@ namespace Drandulette.APIEssentials.Controllers
         }
 
         [HttpDelete(Name = "DeleteAnnouncement")]
-        public void Delete(string announcementID)
+        public IActionResult Delete(string announcementID)
         {
-            var announcementToDelete = dbConnector.Topic.Find(announcementID);
+            var announcementToDelete = dbConnector.Announcement.Find(announcementID);
 
             if (announcementToDelete != null)
             {
-                dbConnector.Topic.Remove(announcementToDelete);
+                dbConnector.Announcement.Remove(announcementToDelete);
                 dbConnector.SaveChanges();
+
+                return Ok();
             }
+
+            return BadRequest();
         }
     }
 }

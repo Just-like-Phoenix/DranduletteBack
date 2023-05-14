@@ -22,7 +22,7 @@ namespace Drandulette.APIEssentials.Controllers
         {
             try
             {
-                topic.topicID = Guid.NewGuid().ToString();
+                //topic.topicID = Guid.NewGuid().ToString();
 
                 DateTime time = DateTime.Now;
 
@@ -48,7 +48,7 @@ namespace Drandulette.APIEssentials.Controllers
                 int end = start > count - 6 ? count : start + 6;
 
                 List<Topic> topics = dbConnector.Topic
-                                        .Where(x => (x.topic_theme.Contains(probableName) || x.topic_text.Contains(probableName)) && x.topicID.Contains(topicID))
+                                        .Where(x => (x.topic_theme.Contains(probableName) || x.topic_text.Contains(probableName)) || x.topicID.Contains(topicID))
                                         .ToList();
 
                 foreach (Topic topic in topics)
@@ -62,7 +62,7 @@ namespace Drandulette.APIEssentials.Controllers
         }
 
         [HttpDelete(Name = "DeleteTopic")]
-        public void Delete(string topicID)
+        public IActionResult Delete(string topicID)
         {
             var topicToDelete = dbConnector.Topic.Find(topicID);
 
@@ -70,7 +70,11 @@ namespace Drandulette.APIEssentials.Controllers
             {
                 dbConnector.Topic.Remove(topicToDelete);
                 dbConnector.SaveChanges();
+
+                return Ok();
             }
+
+            return BadRequest();
         }
     }
 }

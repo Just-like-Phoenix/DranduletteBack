@@ -21,7 +21,7 @@ namespace Drandulette.APIEssentials.Controllers
         {
             try
             {
-                topic_Comment.topic_commentID = Guid.NewGuid().ToString();
+                //topic_Comment.topic_commentID = Guid.NewGuid().ToString();
 
                 DateTime time = DateTime.Now;
 
@@ -53,7 +53,7 @@ namespace Drandulette.APIEssentials.Controllers
         }
 
         [HttpDelete(Name = "DeleteTopicComment")]
-        public void Delete(string topic_commentID)
+        public IActionResult Delete(string topic_commentID)
         {
             var topicCommentToDelete = dbConnector.Topic_comment.Find(topic_commentID);
 
@@ -61,7 +61,11 @@ namespace Drandulette.APIEssentials.Controllers
             {
                 dbConnector.Topic_comment.Remove(topicCommentToDelete);
                 dbConnector.SaveChanges();
+
+                return Ok();
             }
+
+            return BadRequest();
         }
     }
 }

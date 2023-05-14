@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drandulette", "Drandulette\Drandulette.csproj", "{A0107C41-3723-4D10-ADF3-E85D3C462B11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drandulette", "Drandulette\Drandulette.csproj", "{A0107C41-3723-4D10-ADF3-E85D3C462B11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DranduletteBack.Tests", "DranduletteBack.Tests\DranduletteBack.Tests.csproj", "{2DD17F75-54B0-48CE-ACD9-2635B3936C01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{A0107C41-3723-4D10-ADF3-E85D3C462B11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0107C41-3723-4D10-ADF3-E85D3C462B11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0107C41-3723-4D10-ADF3-E85D3C462B11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DD17F75-54B0-48CE-ACD9-2635B3936C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DD17F75-54B0-48CE-ACD9-2635B3936C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DD17F75-54B0-48CE-ACD9-2635B3936C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DD17F75-54B0-48CE-ACD9-2635B3936C01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
