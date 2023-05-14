@@ -63,12 +63,13 @@ namespace Drandulette.APIEssentials.Controllers
         }
 
         [HttpGet(Name = "GetAnnouncement")]
-        public IEnumerable<Announcement> Get(string? announcmentID, string? probableName, string? brand, string? model, int year, int isSpecific, int page)
+        public IEnumerable<Announcement> Get(string? announcmentID, string? probableName, string? brand, string? model, string? mail, int isSpecific, int page)
         {
             try
             {
                 if (brand == null) brand = string.Empty;
                 if (model == null) model = string.Empty;
+                if (mail == null) mail = null;
                 if (probableName == null) probableName = null;
 
                 if (announcmentID != null)
@@ -85,6 +86,22 @@ namespace Drandulette.APIEssentials.Controllers
                     }
 
                     return local;
+                }
+
+                if (mail != null)
+                {
+                    List<Announcement> bymail = dbConnector.Announcement
+                        .Where(x => (x.mailLogin.Contains(mail)))
+                        .Select(x => InsertPictures(x, isSpecific))
+                        .ToList();
+
+                    for (int i = 0; i < bymail.Count; i++)
+                    {
+                        bymail[i].user = dbConnector.User.Find(bymail[i].mailLogin);
+                        bymail[i] = InsertPictures(bymail[i]);
+                    }
+
+                    return bymail;
                 }
 
                 if (probableName != null)

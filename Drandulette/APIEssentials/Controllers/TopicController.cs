@@ -36,7 +36,7 @@ namespace Drandulette.APIEssentials.Controllers
         }
 
         [HttpGet(Name = "GetTopic")]
-        public IEnumerable<Topic> Get(string? topicID, string? probableName, int page)
+        public IEnumerable<Topic> Get(string? topicID, string? probableName, string? mail, int page)
         {
             try
             {

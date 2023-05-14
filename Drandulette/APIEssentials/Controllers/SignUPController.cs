@@ -25,7 +25,6 @@ namespace Drandulette.APIEssentials.Controllers
                     FileManager.Copy($".\\Samples\\imgnotfound.base", $"{path}\\imgnotfound.base");
                 else
                     FileManager.WriteAllText($"{path}\\imgnotfound.base", user.profilePic);
-                
 
                 dbContext.User.Add(user);
                 dbContext.SaveChanges();
