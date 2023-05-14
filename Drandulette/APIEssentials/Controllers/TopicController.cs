@@ -65,10 +65,11 @@ namespace Drandulette.APIEssentials.Controllers
         public void Delete(string topicID)
         {
             var topicToDelete = dbConnector.Topic.Find(topicID);
-
+            List<Topic_comment> topic_Comments = dbConnector.Topic_comment.Where(x => x.topicID.Equals(topicID)).ToList();
             if (topicToDelete != null)
             {
                 dbConnector.Topic.Remove(topicToDelete);
+                topic_Comments.ForEach(x => dbConnector.Topic_comment.Remove(x));
                 dbConnector.SaveChanges();
             }
         }

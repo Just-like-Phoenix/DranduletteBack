@@ -72,6 +72,9 @@ namespace Drandulette.APIEssentials.Controllers
                 if (mail == null) mail = null;
                 if (probableName == null) probableName = null;
 
+
+                int count, start, end;
+
                 if (announcmentID != null)
                 {
                     List<Announcement> local = dbConnector.Announcement
@@ -101,7 +104,12 @@ namespace Drandulette.APIEssentials.Controllers
                         bymail[i] = InsertPictures(bymail[i]);
                     }
 
-                    return bymail;
+
+                    count = bymail.Count();
+                    start = page * 6;
+                    end = start > count - 6 ? count : start + 6;
+
+                    return bymail.Take(new Range(start, end)); ;
                 }
 
                 if (probableName != null)
@@ -117,7 +125,12 @@ namespace Drandulette.APIEssentials.Controllers
                         probable[i] = InsertPictures(probable[i]);
                     }
 
-                    return probable;
+
+                    count = probable.Count();
+                    start = page * 6;
+                    end = start > count - 6 ? count : start + 6;
+
+                    return probable.Take(new Range(start, end)); ;
                 }
 
                 List<Announcement> tmp = dbConnector.Announcement
@@ -125,9 +138,9 @@ namespace Drandulette.APIEssentials.Controllers
                     .Select(x => InsertPictures(x, isSpecific))
                     .ToList();
 
-                int count = tmp.Count();
-                int start = page * 6;
-                int end = start > count - 6 ? count : start + 6;
+                count = tmp.Count();
+                start = page * 6;
+                end = start > count - 6 ? count : start + 6;
 
                 for (int i = 0; i < tmp.Count; i++)
                 {
@@ -143,11 +156,12 @@ namespace Drandulette.APIEssentials.Controllers
         [HttpDelete(Name = "DeleteAnnouncement")]
         public void Delete(string announcementID)
         {
-            var announcementToDelete = dbConnector.Topic.Find(announcementID);
-
+            var announcementToDelete = dbConnector.Announcement.Find(announcementID);
+            List<Announcement_comment> announcement_Comments = dbConnector.Announcement_comment.Where(x => x.announcmentID.Equals(announcementID)).ToList();
             if (announcementToDelete != null)
             {
-                dbConnector.Topic.Remove(announcementToDelete);
+                dbConnector.Announcement.Remove(announcementToDelete);
+                announcement_Comments.ForEach(x => dbConnector.Announcement_comment.Remove(x));
                 dbConnector.SaveChanges();
             }
         }
