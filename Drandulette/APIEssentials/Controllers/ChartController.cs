@@ -50,7 +50,7 @@ namespace Drandulette.APIEssentials.Controllers
                                                   {
                                                       lable = x.Key,
                                                       count = x.Count()
-                                                  })
+                                                  });
 
 
             return Enumerable.Empty<ChartTuple>();
