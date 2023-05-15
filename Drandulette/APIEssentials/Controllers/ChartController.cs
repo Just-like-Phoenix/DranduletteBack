@@ -28,7 +28,8 @@ namespace Drandulette.APIEssentials.Controllers
                                                   {
                                                       lable = x.Key.ToString(),
                                                       count = x.Average(x => x.price)
-                                                  });
+                                                  })
+                                                  .OrderBy(x => x.lable);
 
             return Enumerable.Empty<ChartTuple>();
         }
