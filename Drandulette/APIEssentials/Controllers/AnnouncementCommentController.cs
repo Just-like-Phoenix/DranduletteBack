@@ -22,7 +22,9 @@ namespace Drandulette.APIEssentials.Controllers
             try
             {
                 announcement_Comment.announcment_commentID = Guid.NewGuid().ToString();
-                announcement_Comment.time = DateTime.Now;
+                DateTime time = DateTime.Now;
+
+                announcement_Comment.time = $"{time.Day}.{time.Month}.{time.Year} {time.Hour}:{time.Minute}:{time.Second}";
 
                 dbConnector.Announcement_comment.Add(announcement_Comment);
                 dbConnector.SaveChanges();

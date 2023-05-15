@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -58,7 +57,8 @@ namespace Drandulette.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     message = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    time = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    time = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     mailLogin = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     announcmentID = table.Column<string>(type: "longtext", nullable: true)

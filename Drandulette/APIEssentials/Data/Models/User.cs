@@ -11,6 +11,8 @@ namespace Drandulette.Controllers.Data.Models
         public string? name { get; set; }
         public string? phone { get; set; }
         public int moderator { get; set; }
+        public int verificated { get; set; }
+        public int banned { get; set; }
 
         [NotMapped]
         public string? profilePic { get; set; }

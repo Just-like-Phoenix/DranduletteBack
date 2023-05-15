@@ -9,7 +9,7 @@ namespace Drandulette.Controllers.Data.Models
         public string? announcment_commentID { get; set; }
         
         public string? message { get; set; }
-        public DateTime time { get; set; }
+        public string? time { get; set; }
 
         [NotMapped]
         public User? user { get; set; }
