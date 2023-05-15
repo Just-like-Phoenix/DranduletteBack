@@ -26,5 +26,23 @@ namespace Drandulette.APIEssentials.Controllers
 
             return account;
         }
+
+        [HttpPut(Name = "UpdUser")]
+        public IActionResult Update(string mailLogin, int verification, int banned)
+        {
+            try
+            {
+                var userToUpdate = dbContext.User.Find(mailLogin);
+
+                userToUpdate.verificated = verification;
+                userToUpdate.banned = banned;
+
+                dbContext.Update(userToUpdate);
+                dbContext.SaveChanges();
+
+                return Ok();
+            }
+            catch { return BadRequest(); }
+        }
     }
 }
