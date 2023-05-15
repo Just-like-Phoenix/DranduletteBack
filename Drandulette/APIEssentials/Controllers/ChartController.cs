@@ -30,6 +30,28 @@ namespace Drandulette.APIEssentials.Controllers
                                                       count = x.Average(x => x.price)
                                                   })
                                                   .OrderBy(x => x.lable);
+            else if (type == 3) return dbConnector.Announcement
+                                                  .GroupBy(x => x.brand)
+                                                  .Select(x => new ChartTuple
+                                                  {
+                                                      lable = x.Key,
+                                                      count = x.Max(x => x.price)
+                                                  });
+            else if (type == 4) return dbConnector.User
+                                                  .GroupBy(x => x.verificated)
+                                                  .Select(x => new ChartTuple
+                                                  {
+                                                      lable = x.Key == 1 ? "Верифицировано" : "Не верифицировано",
+                                                      count = x.Count()
+                                                  });
+            else if (type == 5) return dbConnector.Announcement
+                                                  .GroupBy(x => x.transmission)
+                                                  .Select(x => new ChartTuple
+                                                  {
+                                                      lable = x.Key,
+                                                      count = x.Count()
+                                                  })
+
 
             return Enumerable.Empty<ChartTuple>();
         }
