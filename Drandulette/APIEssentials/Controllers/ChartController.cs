@@ -51,6 +51,13 @@ namespace Drandulette.APIEssentials.Controllers
                                                       lable = x.Key,
                                                       count = x.Count()
                                                   });
+            else if (type == 6) return dbConnector.Announcement
+                                                  .GroupBy(x => x.year)
+                                                  .Select(x => new ChartTuple
+                                                  {
+                                                      lable = x.Key.ToString(),
+                                                      count = x.Average(x => x.mileage)
+                                                  });
 
 
             return Enumerable.Empty<ChartTuple>();
